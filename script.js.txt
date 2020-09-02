@@ -1,0 +1,214 @@
+// brojac za poene(koliko je korisnik ima ukupno poena)
+var points = 0;
+// brojac za poene(koliko je korisnik imao tacnih odgovora)
+var howManyCorrect = 0
+
+// brojac za pitanja
+var howMuchQuestionLeft = 1;
+
+//promenljiva koja prolazi kroz array
+var moveAnswer = 0
+
+const question = {
+    question1: 'Which is the capital of Columbia?',
+    answer1: ['bogota', 'cali', 'medelin'],
+    value1: ['bogota', 'cali', 'medelin'],
+    correct1: 0,
+
+    question2: 'In which city was the Titanic built?',
+    answer2: ['toronto', 'belgrade', 'belfast', 'madrid'],
+    value2: ['toronto', 'belgrade', 'belfast', 'madrid'],
+    correct2: 2,
+
+    question3: "What isn't programing language?",
+    answer3: ['java script', 'losos', 'java', 'php'],
+    value3: ['java script', 'losos', 'java', 'php'],
+    correct3: 1,
+
+    question4: 'Who is better programmer?',
+    answer4: ['Bill Gates', 'Sava Milin:))', 'Mark Zakerburg'],
+    value4: ['Bill Gates', 'Sava Milin', 'Mark Zakerburg'],
+    correct4: 1,
+
+    question5: 'Which country sent its navy around the world to fight the Japanese in 1904?',
+    answer5: ['USA', 'Italia', 'Russia', 'Spain'],
+    value5: ['USA', 'Italia', 'Russia', 'Spain'],
+    correct5: 2,
+
+    question6: 'How many women did Henry VIII have?',
+    answer6: ['2', '3', '11', '6', '5'],
+    value6: ['2', '3', '11', '6', '5'],
+    correct6: 3,
+
+    question7: 'How many oscars did the Titanic movie got?',
+    answer7: ['12', '11', '8', '10', '5', '9'],
+    value7: ['12', '11', '8', '10', '5', '9'],
+    correct7: 1,
+
+    question8: 'In which year did Maradona score a goal with his hand?',
+    answer8: ['1986', '1990', '1968', '2001'],
+    value8: ['1986', '1990', '1968', '2001'],
+    correct8: 0,
+
+    question9: 'In which sport can you win the Davis Cup?',
+    answer9: ['football', 'tenis', 'basketball'],
+    value9: ['football', 'tenis', 'basketball'],
+    correct9: 1,
+
+    question10: 'What does the "W" in the name George W Bush stand for?',
+    answer10: ['white', 'wolf', 'walker'],
+    value10: ['white', 'wolf', 'walker'],
+    correct10: 2,
+
+    question11: "What isn't falsy?",
+    answer11: ['empty array []', 'null', 'empty string'],
+    value11: ['empty array []', 'null', 'empty string'],
+    correct11: 0
+
+};
+
+
+const allQuestion = [question.question1, question.question2, question.question3, question.question4, question.question5, question.question6, question.question7, question.question8, question.question9, question.question10, question.question11]
+const allAnswer = [question.answer1, question.answer2, question.answer3, question.answer4, question.answer5, question.answer6, question.answer7, question.answer8, question.answer9, question.answer10, question.answer11]
+const allValue = [question.value1, question.value2, question.value3, question.value4, question.value5, question.value6, question.value7, question.value8, question.value9, question.value10, question.value11]
+const allLength = [question.answer1.length, question.answer2.length, question.answer3.length, question.answer4.length, question.answer5.length, question.answer6.length, question.answer7.length, question.answer8.length, question.answer9.length, question.answer10.length, question.answer11.length]
+const correctAnswer = [question.correct1, question.correct2, question.correct3, question.correct4, question.correct5, question.correct6, question.correct7, question.correct8, question.correct9, question.correct10, question.correct11]
+
+
+
+// funkcija za prikazivanje odgovora
+function makeAnswer(length, value, answer) {
+
+    console.log(length)
+
+
+    for (var i = 0; i < length; i++) {
+        const answerInput = document.getElementById('answer')
+
+        const input = document.createElement('input')
+        input.setAttribute('type', 'radio')
+        input.setAttribute('value', value[i])
+        input.setAttribute('name', 'select')
+        input.setAttribute('class', 'clear data-value')
+
+
+        const span = document.createElement('span')
+        span.setAttribute('class', 'clear')
+        span.innerHTML = answer[i]
+
+        answerInput.appendChild(input)
+        answerInput.appendChild(span)
+    }
+}
+
+
+// funkcija za prikazivanje pitanja
+function makeQuestio(question) {
+
+
+    const paragrafGuestion = document.getElementById('question')
+    paragrafGuestion.innerHTML = question
+
+
+}
+
+// funkcija za prikazivanje koliko je ostalo jos pitanja
+function questionLeft() {
+
+    const questionLeft = document.getElementById('howMuchQuestionLeft')
+    const p = document.createElement('p')
+    p.setAttribute('id', 'left')
+    p.innerHTML = `Question ${howMuchQuestionLeft} of ${allQuestion.length} `
+
+    questionLeft.appendChild(p)
+}
+
+function playAgain() {
+    window.location.reload()
+}
+
+
+
+questionLeft()
+
+makeQuestio(allQuestion[moveAnswer])
+
+makeAnswer(allLength[moveAnswer], allAnswer[moveAnswer], allValue[moveAnswer])
+
+
+document.getElementById('submit').addEventListener('click', newAnswer)
+
+
+
+function newAnswer(e) {
+
+
+
+    console.log(moveAnswer)
+        // referenciraj  radio buttone
+    const inputValueAll = document.querySelectorAll('.data-value')
+    console.log('inputValue:', inputValueAll)
+
+    //provuci kroz forEach 
+    inputValueAll.forEach(function(item) {
+        //proveri ako je cekirano dugme
+        if (item.checked) {
+            // pomeram moveAnser kroz multidimezioni  array, proveri ako je korisnik kliknuo tacan odgovor, ako jeste dodaj poene
+            if (item.value === allValue[moveAnswer][correctAnswer[moveAnswer]]) {
+                points += 10
+                    //dodaj ako je tacan odgovor
+                howManyCorrect++
+                console.log('tacno')
+            }
+        }
+    })
+    console.log('poeni', points)
+
+    //pomeri odgovor(answer) u multidimecionom arrayu za 1,  za svaki klik
+    moveAnswer += 1
+        //pomeri odgovor(answer) u multidimecionom arrayu za 1,  za svaki klik
+    howMuchQuestionLeft += 1
+
+    //ocisti pitanja
+    document.getElementById('question').innerHTML = ''
+        // 
+
+    //ocisti stari odgovor
+
+    const clear = document.querySelectorAll('.clear')
+
+    console.log(clear)
+
+    clear.forEach(function(item) {
+        item.outerHTML = ''
+    })
+
+    // ///
+
+    // proveri da li ima jos odgovora, ako nema igraj ponovo
+    // sve dok duzina niza nije jednaka istom broju u tom nizu
+    if (allQuestion.length != moveAnswer) {
+        questionLeft()
+        makeQuestio(allQuestion[moveAnswer])
+        makeAnswer(allLength[moveAnswer], allValue[moveAnswer], allAnswer[moveAnswer])
+
+
+        document.getElementById('left').outerHTML = ''
+            // ako je jednaka ukloni element i napisi poruku
+    } else {
+        document.getElementById('left').outerHTML = ''
+            // kreiraj poruku o uspesnosti korisnika, koliko % i koliko je tacnih pitanja odgovorio
+        const divPoints = document.getElementById('points')
+        const paragrafPoints = document.createElement('p')
+        paragrafPoints.setAttribute('id', 'message')
+        paragrafPoints.innerHTML = `You won ${points} points. ${howManyCorrect} of ${allQuestion.length } question. You have ${Math.trunc((100/allQuestion.length) * howManyCorrect)}%`
+        divPoints.appendChild(paragrafPoints)
+            ////
+
+        // promeni naziv dugmeta na play again i dodaj event da ponovo krene igra
+        document.getElementById('submit').innerHTML = 'Play again'
+        document.getElementById('submit').addEventListener('click', playAgain)
+    }
+    e.preventDefault()
+
+}
